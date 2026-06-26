@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mainstay — Websites that fill tables</title>
+<meta name="description" content="We rebuild restaurant websites so people find you, crave you, and order. Serving Albuquerque restaurants." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --forest:#1C3A2E;
+    --forest-deep:#122620;
+    --ink:#16201A;
+    --paper:#FAF7F0;
+    --paper-2:#F2EEE3;
+    --sage:#E7EBDF;
+    --brass:#C2913A;
+    --brass-bright:#DFAE55;
+    --muted:#5C6A60;
+    --line:#D9D5C7;
+    --white:#ffffff;
+
+    --display:"Fraunces", Georgia, serif;
+    --body:"Hanken Grotesk", system-ui, -apple-system, sans-serif;
+
+    --maxw:1180px;
+    --radius:14px;
+    --shadow:0 18px 50px -22px rgba(18,38,32,.45);
+    --shadow-sm:0 8px 24px -14px rgba(18,38,32,.4);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;} }
+
+  body{
+    margin:0;
+    font-family:var(--body);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.05;margin:0;letter-spacing:-.01em;}
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  .eyebrow{
+    font-family:var(--body);font-weight:600;font-size:.74rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--brass);display:inline-flex;align-items:center;gap:.6em;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--brass);display:inline-block;}
+
+  /* ============ BUTTONS ============ */
+  .btn{
+    font-family:var(--body);font-weight:600;font-size:1rem;cursor:pointer;border:none;
+    padding:15px 26px;border-radius:999px;display:inline-flex;align-items:center;gap:.55em;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn:focus-visible{outline:3px solid var(--brass-bright);outline-offset:3px;}
+  .btn-primary{background:var(--brass);color:#231a05;box-shadow:0 10px 24px -10px rgba(194,145,58,.7);}
+  .btn-primary:hover{transform:translateY(-2px);background:var(--brass-bright);}
+  .btn-ghost{background:transparent;color:var(--paper);border:1.5px solid rgba(250,247,240,.35);}
+  .btn-ghost:hover{border-color:var(--brass-bright);color:var(--brass-bright);}
+  .btn-dark{background:var(--forest);color:var(--paper);}
+  .btn-dark:hover{transform:translateY(-2px);background:var(--forest-deep);}
+
+  /* ============ NAV ============ */
+  header.nav{
+    position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(10px);
+    background:rgba(250,247,240,.82);border-bottom:1px solid transparent;transition:border-color .3s, box-shadow .3s;
+  }
+  header.nav.scrolled{border-color:var(--line);box-shadow:0 6px 20px -18px rgba(0,0,0,.5);}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:600;font-size:1.32rem;letter-spacing:-.02em;color:var(--forest);}
+  .brand .mark{width:30px;height:30px;flex:none;}
+  .nav-links{display:flex;align-items:center;gap:34px;}
+  .nav-links a{font-size:.95rem;font-weight:500;color:var(--ink);opacity:.8;transition:opacity .2s;}
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{font-size:.92rem;padding:11px 22px;}
+  .nav-toggle{display:none;background:none;border:none;cursor:pointer;}
+  @media (max-width:860px){
+    .nav-links{display:none;}
+  }
+
+  /* ============ HERO ============ */
+  .hero{background:var(--forest);color:var(--paper);position:relative;overflow:hidden;}
+  .hero::after{
+    content:"";position:absolute;right:-12%;top:-30%;width:60%;height:160%;
+    background:radial-gradient(closest-side, rgba(194,145,58,.18), transparent 70%);pointer-events:none;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:54px;align-items:center;padding:84px 0 96px;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(2.6rem,5.2vw,4.15rem);font-weight:600;}
+  .hero h1 em{font-style:italic;color:var(--brass-bright);font-weight:500;}
+  .hero-sub{margin-top:24px;font-size:1.18rem;color:rgba(250,247,240,.82);max-width:30ch;}
+  .hero-actions{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;}
+  .hero-foot{margin-top:30px;display:flex;align-items:center;gap:10px;font-size:.9rem;color:rgba(250,247,240,.6);}
+  .hero-foot svg{flex:none;}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;gap:40px;padding:56px 0 64px;}
+    .hero-sub{max-width:none;}
+  }
+
+  /* ====== BEFORE/AFTER SIGNATURE ====== */
+  .compare{
+    position:relative;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);
+    aspect-ratio:4/3.05;background:#fff;user-select:none;touch-action:none;
+  }
+  .compare-label{
+    position:absolute;top:14px;z-index:6;font-family:var(--body);font-weight:700;font-size:.66rem;
+    letter-spacing:.14em;text-transform:uppercase;padding:6px 11px;border-radius:999px;color:#fff;
+    pointer-events:none;
+  }
+  .lbl-before{left:14px;background:rgba(40,40,40,.78);}
+  .lbl-after{right:14px;background:rgba(28,58,46,.92);}
+
+  .mock{position:absolute;inset:0;display:flex;flex-direction:column;}
+  .mock-bar{height:30px;display:flex;align-items:center;gap:6px;padding:0 12px;flex:none;}
+  .mock-bar i{width:9px;height:9px;border-radius:50%;display:block;}
+  .mock-body{flex:1;overflow:hidden;}
+
+  /* BEFORE: deliberately dated site */
+  .before{background:#cfcabc;}
+  .before .mock-bar{background:#b9b3a3;}
+  .before .mock-bar i:nth-child(1){background:#8c8674;}
+  .before .mock-bar i:nth-child(2){background:#8c8674;}
+  .before .mock-bar i:nth-child(3){background:#8c8674;}
+  .before .mock-body{background:#e6e2d6;padding:14px 16px;font-family:"Times New Roman",serif;color:#3a3a3a;}
+  .before h5{font-family:"Times New Roman",serif;font-weight:700;color:#7a1f1f;font-size:1.05rem;margin:0 0 3px;text-shadow:1px 1px 0 #fff;}
+  .before .tag{font-size:.62rem;color:#555;font-style:italic;margin-bottom:12px;}
+  .before .blob{height:66px;background:repeating-linear-gradient(45deg,#c4bca6,#c4bca6 8px,#bcb39c 8px,#bcb39c 16px);border:1px solid #a59b80;display:flex;align-items:center;justify-content:center;color:#7d7560;font-size:.6rem;margin-bottom:12px;}
+  .before .lines b{display:block;height:6px;background:#b3ab94;margin-bottom:7px;border-radius:1px;}
+  .before .lines b:nth-child(2){width:88%;}
+  .before .lines b:nth-child(3){width:72%;}
+  .before .lines b:nth-child(4){width:80%;}
+  .before .oldbtn{margin-top:10px;display:inline-block;font-size:.6rem;color:#1a3ca0;text-decoration:underline;}
+
+  /* AFTER: clean modern site */
+  .after{background:#fff;}
+  .after .mock-bar{background:var(--sage);}
+  .after .mock-bar i:nth-child(1){background:#e07a5f;}
+  .after .mock-bar i:nth-child(2){background:#e9b949;}
+  .after .mock-bar i:nth-child(3){background:#5a9367;}
+  .after .mock-body{background:linear-gradient(#fff,#fbf9f3);display:flex;flex-direction:column;}
+  .after .hero-img{height:42%;background:
+      radial-gradient(120% 90% at 70% 10%, rgba(223,174,85,.35), transparent 60%),
+      linear-gradient(135deg,#234b3a,#2f6048);position:relative;display:flex;align-items:flex-end;padding:11px 14px;}
+  .after .hero-img h5{font-family:var(--display);color:#fff;font-size:clamp(.8rem,2vw,1.15rem);font-weight:600;line-height:1.05;}
+  .after .hero-img .pill{position:absolute;top:10px;right:11px;background:var(--brass-bright);color:#231a05;font-family:var(--body);font-weight:700;font-size:.55rem;padding:4px 9px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;}
+  .after .row{display:flex;gap:7px;padding:11px 14px 0;}
+  .after .card{flex:1;height:38px;border-radius:7px;background:var(--sage);border:1px solid #dfe2d6;}
+  .after .order{margin:12px 14px 0;background:var(--forest);color:#fff;font-family:var(--body);font-weight:600;font-size:.66rem;text-align:center;padding:9px;border-radius:8px;letter-spacing:.02em;}
+  .after .meta{display:flex;gap:9px;padding:9px 14px 0;font-family:var(--body);font-size:.5rem;color:var(--muted);}
+  .after .meta span{display:flex;align-items:center;gap:3px;}
+
+  .clip-layer{position:absolute;inset:0;z-index:3;clip-path:inset(0 0 0 var(--pos,55%));}
+  .base-layer{position:absolute;inset:0;z-index:2;}
+  .divider{
+    position:absolute;top:0;bottom:0;left:var(--pos,55%);width:2px;background:var(--brass-bright);z-index:5;
+    transform:translateX(-1px);
+  }
+  .handle{
+    position:absolute;top:50%;left:var(--pos,55%);transform:translate(-50%,-50%);z-index:7;
+    width:42px;height:42px;border-radius:50%;background:var(--brass-bright);box-shadow:0 6px 16px -4px rgba(0,0,0,.5);
+    display:flex;align-items:center;justify-content:center;cursor:ew-resize;color:#231a05;
+  }
+  .handle svg{width:20px;height:20px;}
+  .compare input[type=range]{
+    position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;z-index:8;margin:0;
+  }
+  .compare input[type=range]:focus-visible + .handle{outline:3px solid #fff;outline-offset:3px;}
+
+  /* ============ SECTIONS ============ */
+  section{padding:96px 0;}
+  .section-head{max-width:60ch;margin-bottom:54px;}
+  .section-head h2{font-size:clamp(2rem,3.6vw,2.9rem);margin-top:16px;}
+  .section-head p{margin-top:18px;font-size:1.12rem;color:var(--muted);}
+
+  /* services */
+  .services{background:var(--paper);}
+  .svc-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;}
+  .svc{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:38px;
+    position:relative;transition:transform .25s ease, box-shadow .25s ease;display:flex;flex-direction:column;
+  }
+  .svc:hover{transform:translateY(-4px);box-shadow:var(--shadow-sm);}
+  .svc.feature{background:var(--forest);color:var(--paper);border-color:var(--forest);}
+  .svc-flag{font-family:var(--body);font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);}
+  .svc.feature .svc-flag{color:var(--brass-bright);}
+  .svc h3{font-size:1.85rem;margin:14px 0 12px;}
+  .svc .lead{font-size:1.05rem;color:var(--muted);}
+  .svc.feature .lead{color:rgba(250,247,240,.78);}
+  .svc ul{list-style:none;padding:0;margin:24px 0 0;}
+  .svc li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line);font-size:.98rem;}
+  .svc.feature li{border-color:rgba(250,247,240,.16);}
+  .svc li svg{flex:none;margin-top:3px;color:var(--brass);}
+  .svc.feature li svg{color:var(--brass-bright);}
+  .svc .price-note{margin-top:24px;padding-top:20px;font-size:.92rem;color:var(--muted);}
+  .svc.feature .price-note{color:rgba(250,247,240,.65);}
+  @media (max-width:860px){ .svc-grid{grid-template-columns:1fr;} }
+
+  /* how it works */
+  .how{background:var(--forest-deep);color:var(--paper);}
+  .how .section-head h2{color:var(--paper);}
+  .how .section-head p{color:rgba(250,247,240,.72);}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .step{border-top:2px solid rgba(194,145,58,.5);padding-top:22px;}
+  .step .num{font-family:var(--display);font-size:2.4rem;font-weight:600;color:var(--brass-bright);line-height:1;}
+  .step h4{font-size:1.22rem;margin:14px 0 9px;color:var(--paper);}
+  .step p{font-size:.96rem;color:rgba(250,247,240,.72);}
+  @media (max-width:860px){ .steps{grid-template-columns:1fr 1fr;gap:30px 22px;} }
+  @media (max-width:520px){ .steps{grid-template-columns:1fr;} }
+
+  /* founding */
+  .founding{background:var(--paper-2);}
+  .founding-card{
+    background:var(--white);border:1px solid var(--line);border-radius:20px;
+    padding:54px;display:grid;grid-template-columns:1.4fr 1fr;gap:46px;align-items:center;
+  }
+  .founding-card h2{font-size:clamp(1.9rem,3.2vw,2.6rem);}
+  .founding-card p{margin-top:18px;font-size:1.08rem;color:var(--muted);}
+  .founding-points{display:flex;flex-direction:column;gap:18px;}
+  .fp{display:flex;gap:14px;align-items:flex-start;}
+  .fp .dot{width:38px;height:38px;border-radius:10px;background:var(--sage);flex:none;display:flex;align-items:center;justify-content:center;color:var(--forest);}
+  .fp h5{font-family:var(--body);font-weight:700;font-size:1rem;margin:0 0 2px;}
+  .fp p{margin:0;font-size:.92rem;color:var(--muted);}
+  @media (max-width:860px){ .founding-card{grid-template-columns:1fr;padding:36px;gap:32px;} }
+
+  /* ============ SURVEY ============ */
+  .survey{background:var(--forest);color:var(--paper);}
+  .survey .section-head h2{color:var(--paper);}
+  .survey .section-head p{color:rgba(250,247,240,.75);}
+  .survey-shell{
+    background:var(--paper);color:var(--ink);border-radius:22px;box-shadow:var(--shadow);
+    max-width:720px;margin:0 auto;overflow:hidden;
+  }
+  .survey-progress{height:6px;background:var(--paper-2);}
+  .survey-progress i{display:block;height:100%;width:0;background:var(--brass);transition:width .4s ease;}
+  .survey-pad{padding:46px 48px 40px;}
+  .q-step{display:none;animation:fade .35s ease;}
+  .q-step.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  .q-count{font-family:var(--body);font-weight:600;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);}
+  .q-step h3{font-size:1.65rem;margin:12px 0 6px;}
+  .q-help{color:var(--muted);font-size:1rem;margin-bottom:26px;}
+
+  .opts{display:grid;gap:12px;}
+  .opt{
+    text-align:left;background:var(--white);border:1.5px solid var(--line);border-radius:12px;
+    padding:18px 20px;font-family:var(--body);font-size:1.02rem;cursor:pointer;display:flex;
+    align-items:center;gap:14px;transition:border-color .18s, background .18s, transform .12s;color:var(--ink);
+  }
+  .opt:hover{border-color:var(--brass);transform:translateX(3px);}
+  .opt.selected{border-color:var(--forest);background:var(--sage);}
+  .opt .tick{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:none;display:flex;align-items:center;justify-content:center;color:#fff;}
+  .opt.selected .tick{background:var(--forest);border-color:var(--forest);}
+  .opt .tick svg{opacity:0;}
+  .opt.selected .tick svg{opacity:1;}
+  .opt span.lbl{font-weight:500;}
+  .opt small{display:block;color:var(--muted);font-weight:400;font-size:.85rem;margin-top:2px;}
+
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-weight:600;font-size:.95rem;margin-bottom:7px;}
+  .field input,.field textarea{
+    width:100%;font-family:var(--body);font-size:1rem;padding:14px 16px;border-radius:11px;
+    border:1.5px solid var(--line);background:var(--white);color:var(--ink);transition:border-color .18s;
+  }
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--brass);}
+  .field .opt-note{font-weight:400;color:var(--muted);font-size:.85rem;}
+  textarea{resize:vertical;min-height:84px;}
+
+  .q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:30px;gap:12px;}
+  .link-back{background:none;border:none;cursor:pointer;font-family:var(--body);font-weight:600;color:var(--muted);font-size:.95rem;padding:8px 4px;}
+  .link-back:hover{color:var(--ink);}
+  .link-back[hidden]{visibility:hidden;}
+
+  .privacy-inline{display:flex;gap:10px;align-items:flex-start;background:var(--sage);border-radius:12px;padding:14px 16px;margin-top:8px;font-size:.86rem;color:var(--muted);}
+  .privacy-inline svg{flex:none;margin-top:2px;color:var(--forest);}
+
+  .done{text-align:center;padding:20px 10px;}
+  .done .check{width:64px;height:64px;border-radius:50%;background:var(--forest);color:var(--paper);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;}
+  .done h3{font-size:1.9rem;margin-bottom:12px;}
+  .done p{color:var(--muted);font-size:1.05rem;max-width:42ch;margin:0 auto;}
+
+  @media (max-width:560px){ .survey-pad{padding:32px 24px;} }
+
+  /* ============ FOOTER ============ */
+  footer.site{background:var(--ink);color:rgba(250,247,240,.7);padding:64px 0 40px;}
+  .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-bottom:42px;border-bottom:1px solid rgba(250,247,240,.12);}
+  .foot-brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:600;font-size:1.35rem;color:var(--paper);margin-bottom:14px;}
+  .foot-brand .mark{width:30px;height:30px;}
+  .foot-grid p{font-size:.95rem;max-width:34ch;}
+  .foot-col h6{font-family:var(--body);font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-bright);margin:0 0 16px;}
+  .foot-col a{display:block;font-size:.96rem;margin-bottom:11px;color:rgba(250,247,240,.7);transition:color .2s;}
+  .foot-col a:hover{color:var(--paper);}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:26px;font-size:.85rem;gap:16px;flex-wrap:wrap;}
+  .privacy-pledge{display:flex;gap:9px;align-items:center;color:rgba(250,247,240,.6);}
+  .privacy-pledge svg{color:var(--brass-bright);flex:none;}
+  @media (max-width:760px){ .foot-grid{grid-template-columns:1fr;gap:30px;} }
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Mainstay home">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="#1C3A2E"/>
+        <path d="M8 22V11l8 5 8-5v11" stroke="#DFAE55" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="24" r="1.6" fill="#DFAE55"/>
+      </svg>
+      Mainstay
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#services">What we do</a>
+      <a href="#how">How it works</a>
+      <a href="#founding">Founding partners</a>
+      <a href="#survey">Get a look</a>
+    </nav>
+    <a href="#survey" class="btn btn-dark nav-cta">Start free</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<a id="top"></a>
+<section class="hero" style="padding:0;">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">For Albuquerque restaurants</span>
+        <h1 style="margin-top:20px;">Your food's the<br>easy part. Your<br><em>website isn't.</em></h1>
+        <p class="hero-sub">Most local restaurants lose online orders to a website that doesn't do their kitchen justice. We rebuild it — so people find you, crave you, and order.</p>
+        <div class="hero-actions">
+          <a href="#survey" class="btn btn-primary">See what we'd change — free</a>
+          <a href="#services" class="btn btn-ghost">What we do</a>
+        </div>
+        <div class="hero-foot">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z" stroke="#DFAE55" stroke-width="1.6" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#DFAE55" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          No cost to find out. We only keep what you choose to share.
+        </div>
+      </div>
+
+      <!-- SIGNATURE: drag-to-reveal makeover -->
+      <div>
+        <div class="compare" id="compare">
+          <span class="compare-label lbl-before">Before</span>
+          <span class="compare-label lbl-after">After</span>
+
+          <!-- AFTER (base) -->
+          <div class="base-layer">
+            <div class="mock after">
+              <div class="mock-bar"><i></i><i></i><i></i></div>
+              <div class="mock-body">
+                <div class="hero-img">
+                  <span class="pill">Order online</span>
+                  <h5>Sazón del Valle</h5>
+                </div>
+                <div class="row"><div class="card"></div><div class="card"></div><div class="card"></div></div>
+                <div class="order">Reserve a table · Order pickup</div>
+                <div class="meta"><span>★ 4.8 · 320 reviews</span><span>Open till 10pm</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BEFORE (clipped on top) -->
+          <div class="clip-layer" id="clip">
+            <div class="mock before">
+              <div class="mock-bar"><i></i><i></i><i></i></div>
+              <div class="mock-body">
+                <h5>WELCOME TO OUR WEBSITE!!</h5>
+                <div class="tag">~ Best food in town since 1998 ~</div>
+                <div class="blob">[ photo not loading ]</div>
+                <div class="lines"><b></b><b></b><b></b><b></b></div>
+                <a class="oldbtn">click here for menu.pdf</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider" id="divider"></div>
+          <input type="range" min="0" max="100" value="55" id="slider" aria-label="Drag to compare the old website and the new one" />
+          <div class="handle" id="handle" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="m9 7-5 5 5 5M15 7l5 5-5 5" stroke="#231a05" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <p style="text-align:center;margin-top:14px;font-size:.85rem;color:rgba(250,247,240,.55);">Drag to see the difference a real website makes</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">What we do</span>
+      <h2>Two ways to turn browsers into tables.</h2>
+      <p>Start with the website everyone sees. Go deeper with the menu that decides what they order.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc feature reveal">
+        <span class="svc-flag">The headline · website makeover</span>
+        <h3>A website that works as hard as your kitchen.</h3>
+        <p class="lead">We rebuild your site from scratch so it loads fast, looks like your food tastes, and points every visitor toward one thing: ordering or booking a table.</p>
+        <ul>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Built mobile-first — most people find you on a phone</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Order & reserve buttons front and center, not buried</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Your menu and photos shown the way they deserve</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Easy to find on Google when people search nearby</li>
+        </ul>
+        <p class="price-note">Priced per project once we've seen your current site — no surprise retainers.</p>
+      </div>
+
+      <div class="svc reveal">
+        <span class="svc-flag">Premium add-on · menu optimization</span>
+        <h3>The menu decides the check.</h3>
+        <p class="lead">How a menu reads quietly steers what guests order. We rework layout, descriptions, featured items, and pricing to nudge people toward the dishes that are best for them — and best for your margins.</p>
+        <ul>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Layout that leads the eye to high-margin dishes</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Descriptions that make food sell itself</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Smart pricing layout, drawn from real floor experience</li>
+        </ul>
+        <p class="price-note">Add it to a makeover or take it on its own.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>Four steps. The first one's free.</h2>
+      <p>You never pay to find out what we'd change. You only decide once you've seen the plan.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="num">01</div><h4>Tell us about your spot</h4><p>A short survey — a few minutes, no account, no card. Just enough to understand your restaurant.</p></div>
+      <div class="step reveal"><div class="num">02</div><h4>We study your presence by hand</h4><p>A real person reviews your actual website, your Google listing, and how you show up to a hungry customer.</p></div>
+      <div class="step reveal"><div class="num">03</div><h4>We call you within 24 hours</h4><p>A straight conversation: what's costing you orders, what we'd change, and what it would cost. No pressure.</p></div>
+      <div class="step reveal"><div class="num">04</div><h4>We rebuild it</h4><p>If it's a fit, we get to work. You get a site you're proud to send people to — and tables that fill.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOUNDING PARTNERS ============ -->
+<section class="founding" id="founding">
+  <div class="wrap">
+    <div class="founding-card reveal">
+      <div>
+        <span class="eyebrow">Founding partners</span>
+        <h2 style="margin-top:16px;">We're choosing our first Albuquerque restaurants right now.</h2>
+        <p>We'd rather start with a handful of places and do remarkable work than spread thin. Early partners get our founding rate — the lowest we'll ever offer — and first say on the work. In a town where every owner knows every owner, a website worth bragging about travels fast.</p>
+        <div style="margin-top:30px;"><a href="#survey" class="btn btn-dark">Put your name in</a></div>
+      </div>
+      <div class="founding-points">
+        <div class="fp">
+          <span class="dot"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <div><h5>Founding rate</h5><p>The lowest pricing we'll ever offer, locked in for early partners.</p></div>
+        </div>
+        <div class="fp">
+          <span class="dot"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+          <div><h5>Honest from the start</h5><p>No fake reviews, no inflated promises. Real work you can point a neighbor to.</p></div>
+        </div>
+        <div class="fp">
+          <span class="dot"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div><h5>Nothing to lose</h5><p>The review and the plan cost you nothing. You decide from there.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SURVEY ============ -->
+<section class="survey" id="survey">
+  <div class="wrap">
+    <div class="section-head reveal" style="text-align:center;margin-left:auto;margin-right:auto;">
+      <span class="eyebrow" style="justify-content:center;">Get a look</span>
+      <h2>Show us your restaurant.</h2>
+      <p>Answer a few quick questions and we'll review your online presence by hand. We'll reach out within 24 hours with what we'd change — free.</p>
+    </div>
+
+    <div class="survey-shell reveal">
+      <div class="survey-progress"><i id="bar"></i></div>
+      <div class="survey-pad">
+        <form id="surveyForm" novalidate>
+
+          <!-- STEP 1: scope (branch driver) -->
+          <div class="q-step active" data-step="0">
+            <span class="q-count">Question 1</span>
+            <h3>What are you looking for?</h3>
+            <p class="q-help">Pick the closest one — the rest of the questions adjust to your answer.</p>
+            <div class="opts" data-single role="group">
+              <button type="button" class="opt" data-value="new" data-branch="new"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">I need a brand-new website<small>I don't really have one, or it's barely there</small></span></button>
+              <button type="button" class="opt" data-value="fix" data-branch="fix"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Fix the website I have<small>It exists, but it's tired or not pulling its weight</small></span></button>
+              <button type="button" class="opt" data-value="menu" data-branch="menu"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Help with my menu<small>I want to sell more of the right dishes</small></span></button>
+              <button type="button" class="opt" data-value="unsure" data-branch="fix"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Not sure — show me what's possible<small>Take a look and tell me where I'm leaving money</small></span></button>
+            </div>
+          </div>
+
+          <!-- STEP 2: about the restaurant (all branches) -->
+          <div class="q-step" data-step="1">
+            <span class="q-count">Question 2</span>
+            <h3>Tell us about the place.</h3>
+            <p class="q-help">Just the basics so we know what we're looking at.</p>
+            <div class="field"><label for="rname">Restaurant name</label><input id="rname" name="restaurant" type="text" placeholder="e.g. Sazón del Valle" autocomplete="organization" /></div>
+            <div class="field"><label for="rtype">What kind of food do you serve?</label><input id="rtype" name="cuisine" type="text" placeholder="e.g. New Mexican, pizza, coffee + pastries" /></div>
+          </div>
+
+          <!-- STEP 3a: BRANCH fix/new — current site -->
+          <div class="q-step" data-step="2" data-show="new,fix">
+            <span class="q-count">Question 3</span>
+            <h3 id="siteHeading">Where can we find you online now?</h3>
+            <p class="q-help">Paste your website or a social page. This is what lets us review you before we call — it's the most useful thing you can give us.</p>
+            <div class="field"><label for="url">Website or social link <span class="opt-note">(leave blank if you truly have none)</span></label><input id="url" name="current_link" type="text" placeholder="yourrestaurant.com or instagram.com/yourrestaurant" /></div>
+            <div class="field"><label for="orders">Can people order online right now?</label>
+              <div class="opts" data-single>
+                <button type="button" class="opt" data-value="yes-easy"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Yes, and it's easy</span></button>
+                <button type="button" class="opt" data-value="yes-hard"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Yes, but it's clunky</span></button>
+                <button type="button" class="opt" data-value="no"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">No, not really</span></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3b: BRANCH menu -->
+          <div class="q-step" data-step="2" data-show="menu">
+            <span class="q-count">Question 3</span>
+            <h3>What do you want your menu to do better?</h3>
+            <p class="q-help">Pick what's closest.</p>
+            <div class="opts" data-single>
+              <button type="button" class="opt" data-value="margins"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Sell more of my high-margin dishes</span></button>
+              <button type="button" class="opt" data-value="upsell"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Get bigger checks — apps, drinks, dessert</span></button>
+              <button type="button" class="opt" data-value="clarity"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Make it clearer and easier to read</span></button>
+              <button type="button" class="opt" data-value="redesign"><span class="tick"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">It just looks dated — redo the whole thing</span></button>
+            </div>
+          </div>
+
+          <!-- STEP 4: biggest frustration (all) -->
+          <div class="q-step" data-step="3">
+            <span class="q-count">Question 4</span>
+            <h3>What's the one thing bugging you most?</h3>
+            <p class="q-help">In your own words. This tells us where to look first.</p>
+            <div class="field"><textarea name="frustration" placeholder="e.g. We're packed on weekends but dead Tuesday–Thursday and our website looks like it's from 2009."></textarea></div>
+          </div>
+
+          <!-- STEP 5: contact + privacy -->
+          <div class="q-step" data-step="4">
+            <span class="q-count">Last question</span>
+            <h3>Where should we reach you?</h3>
+            <p class="q-help">We'll call within 24 hours with what we'd change. No newsletters, no spam.</p>
+            <div class="field"><label for="cname">Your name</label><input id="cname" name="name" type="text" placeholder="First and last" autocomplete="name" /></div>
+            <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" placeholder="(505) 555-0123" autocomplete="tel" /></div>
+            <div class="field"><label for="email">Email <span class="opt-note">(optional)</span></label><input id="email" name="email" type="email" placeholder="you@yourrestaurant.com" autocomplete="email" /></div>
+            <div class="privacy-inline">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>We only use this to prepare your review and reach out once. We don't sell your information, and we'll delete it on request. That's the whole deal.</span>
+            </div>
+          </div>
+
+          <!-- DONE -->
+          <div class="q-step" data-step="5">
+            <div class="done">
+              <div class="check"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-11" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <h3>Got it — talk soon.</h3>
+              <p>We'll review your restaurant by hand and reach out within 24 hours with what we'd change. No card, no commitment. Thanks for showing us your spot.</p>
+            </div>
+          </div>
+
+          <div class="q-nav" id="qnav">
+            <button type="button" class="link-back" id="backBtn" hidden>← Back</button>
+            <button type="button" class="btn btn-dark" id="nextBtn">Continue</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect width="32" height="32" rx="8" fill="#1C3A2E"/>
+            <path d="M8 22V11l8 5 8-5v11" stroke="#DFAE55" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="16" cy="24" r="1.6" fill="#DFAE55"/>
+          </svg>
+          Mainstay
+        </div>
+        <p>Websites that fill tables. We help Albuquerque restaurants show up online the way they show up on the plate.</p>
+      </div>
+      <div class="foot-col">
+        <h6>Explore</h6>
+        <a href="#services">What we do</a>
+        <a href="#how">How it works</a>
+        <a href="#founding">Founding partners</a>
+        <a href="#survey">Get a look</a>
+      </div>
+      <div class="foot-col">
+        <h6>Contact</h6>
+        <a href="#survey">Start the survey</a>
+        <a href="mailto:hello@mainstay.example">hello@mainstay.example</a>
+        <a href="#top">Back to top</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Mainstay. Albuquerque, NM.</span>
+      <span class="privacy-pledge">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        We keep only what you share, only as long as we need it.
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== year ===== */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ===== nav shadow ===== */
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 12));
+
+/* ===== reveal on scroll ===== */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: .14 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ===== before/after slider ===== */
+(function(){
+  const box = document.getElementById('compare');
+  const clip = document.getElementById('clip');
+  const divider = document.getElementById('divider');
+  const handle = document.getElementById('handle');
+  const slider = document.getElementById('slider');
+  function set(pos){
+    pos = Math.max(0, Math.min(100, pos));
+    clip.style.clipPath = `inset(0 0 0 ${pos}%)`;
+    divider.style.left = pos + '%';
+    handle.style.left = pos + '%';
+    slider.value = pos;
+  }
+  set(55);
+  slider.addEventListener('input', () => set(+slider.value));
+  // pointer drag anywhere on the box
+  let dragging = false;
+  function fromEvent(clientX){
+    const r = box.getBoundingClientRect();
+    set(((clientX - r.left) / r.width) * 100);
+  }
+  box.addEventListener('pointerdown', e => { dragging = true; fromEvent(e.clientX); });
+  addEventListener('pointermove', e => { if (dragging) fromEvent(e.clientX); });
+  addEventListener('pointerup', () => dragging = false);
+})();
+
+/* ===== adaptive survey ===== */
+(function(){
+  const form = document.getElementById('surveyForm');
+  const steps = Array.from(form.querySelectorAll('.q-step'));
+  const bar = document.getElementById('bar');
+  const nextBtn = document.getElementById('nextBtn');
+  const backBtn = document.getElementById('backBtn');
+  const qnav = document.getElementById('qnav');
+
+  // ---- IMPORTANT FOR TATE: paste your form endpoint here to receive leads ----
+  // GitHub Pages can't capture form submissions on its own. Use a free service
+  // like Formspree (https://formspree.io). Create a form, copy its URL, and put
+  // it below. Leave as null to run in demo mode (no data sent anywhere).
+  const FORM_ENDPOINT = null;
+  // ---------------------------------------------------------------------------
+
+  let branch = 'fix';          // set by question 1
+  let order = [];              // visible step indices, recomputed on branch
+  let pos = 0;                 // index within `order`
+  const data = {};
+
+  function buildOrder(){
+    order = steps
+      .filter(s => {
+        const show = s.dataset.show;
+        if (!show) return true;          // shown for all branches
+        return show.split(',').includes(branch);
+      })
+      .map(s => steps.indexOf(s));
+  }
+  buildOrder();
+
+  function render(){
+    const realIndex = order[pos];
+    steps.forEach(s => s.classList.remove('active'));
+    steps[realIndex].classList.add('active');
+    // progress: exclude the final "done" step from the count
+    const total = order.length - 1;
+    bar.style.width = Math.round((pos / total) * 100) + '%';
+    backBtn.hidden = pos === 0;
+    const isContact = steps[realIndex].dataset.step === '4';
+    const isDone = steps[realIndex].dataset.step === '5';
+    nextBtn.textContent = isContact ? 'Send it →' : 'Continue';
+    qnav.style.display = isDone ? 'none' : 'flex';
+    if (isDone){ bar.style.width = '100%'; }
+    steps[realIndex].scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  // single-select option groups
+  form.querySelectorAll('.opts[data-single]').forEach(group => {
+    group.addEventListener('click', e => {
+      const opt = e.target.closest('.opt');
+      if (!opt) return;
+      group.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      if (opt.dataset.branch){ branch = opt.dataset.branch; }
+    });
+  });
+
+  function collect(){
+    // text inputs
+    form.querySelectorAll('input, textarea').forEach(el => {
+      if (el.name && el.value.trim()) data[el.name] = el.value.trim();
+    });
+    // selected options
+    form.querySelectorAll('.opt.selected').forEach(o => {
+      const group = o.closest('.q-step').dataset.step;
+      data['choice_' + group] = o.dataset.value;
+    });
+    data.branch = branch;
+  }
+
+  async function submit(){
+    collect();
+    if (FORM_ENDPOINT){
+      try{
+        await fetch(FORM_ENDPOINT, {
+          method:'POST',
+          headers:{'Content-Type':'application/json','Accept':'application/json'},
+          body: JSON.stringify(data)
+        });
+      }catch(err){ console.warn('Submit failed:', err); }
+    } else {
+      console.log('Demo mode — survey answers:', data);
+    }
+  }
+
+  nextBtn.addEventListener('click', () => {
+    const realIndex = order[pos];
+    const stepName = steps[realIndex].dataset.step;
+    if (stepName === '0' && branch === undefined){ return; }
+    if (stepName === '4'){           // contact step -> submit then show done
+      submit();
+      pos = order.length - 1;
+      render();
+      return;
+    }
+    if (pos < order.length - 1){
+      // recompute order after the branch question so the right path follows
+      if (stepName === '0'){ buildOrder(); }
+      pos++;
+      render();
+    }
+  });
+
+  backBtn.addEventListener('click', () => {
+    if (pos > 0){ pos--; render(); }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
